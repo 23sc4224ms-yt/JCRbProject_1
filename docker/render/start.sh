@@ -10,6 +10,7 @@ if [ -n "$APP_KEY" ] && [[ "$APP_KEY" != base64:* ]]; then
 fi
 
 php artisan storage:link || true
+php artisan package:discover --ansi
 php artisan config:cache
 php artisan view:cache
 php artisan migrate --force

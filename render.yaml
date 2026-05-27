@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: jcrbproject-1
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: main
+    autoDeployTrigger: commit
+    healthCheckPath: /login
+    initialDeployHook: php artisan db:seed --force
+    envVars:
+      - key: APP_NAME
+        value: JCRbProject
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: jcrbproject-1-db
+          property: connectionString
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: LOG_CHANNEL
+        value: stderr
+
+databases:
+  - name: jcrbproject-1-db
+    plan: free
+    region: singapore

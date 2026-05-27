@@ -15,7 +15,7 @@ WORKDIR /var/www/html
 COPY --chown=www-data:www-data . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction \
-    && npm install \
+    && npm ci \
     && npm run build \
     && rm -rf node_modules
 

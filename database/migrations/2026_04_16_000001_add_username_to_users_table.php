@@ -14,7 +14,7 @@ return new class extends Migration
     {
         if (!Schema::hasColumn('users', 'username')) {
             Schema::table('users', function (Blueprint $table) {
-                $table->string('username')->nullable()->unique()->after('email');
+                $table->string('username')->nullable()->unique();
             });
 
             // Generate usernames for existing users

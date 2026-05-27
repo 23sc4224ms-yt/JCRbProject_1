@@ -14,10 +14,10 @@ WORKDIR /var/www/html
 
 COPY --chown=www-data:www-data . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction \
-    && npm ci \
-    && npm run build \
-    && rm -rf node_modules
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN npm ci
+RUN npm run build
+RUN rm -rf node_modules
 
 RUN chmod +x /var/www/html/docker/render/start.sh \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache

@@ -1,0 +1,192 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* ===== COMPLETE PAGINATION FIX ===== */
+
+/* Target nav element */
+nav ul.pagination {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 1rem auto !important;
+  padding: 0 !important;
+  gap: 0.25rem !important;
+}
+
+nav ul.pagination li {
+  display: inline-block !important;
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+nav ul.pagination li::before,
+nav ul.pagination li::after {
+  content: "" !important;
+  display: none !important;
+}
+
+/* Universal pagination reset */
+.pagination {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 1rem auto !important;
+  padding: 0 !important;
+  gap: 0.25rem !important;
+}
+
+/* Remove bullets from all list items */
+.pagination li,
+.pagination li::before,
+.pagination li::after,
+ul.pagination,
+ul.pagination li {
+  list-style: none !important;
+  list-style-type: none !important;
+  display: inline-block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  content: "" !important;
+}
+
+/* Page items styling */
+.page-item {
+  display: inline-block !important;
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.page-item::before,
+.page-item::after {
+  content: "" !important;
+  display: none !important;
+}
+
+/* Page links */
+.page-link {
+  display: inline-block !important;
+  padding: 0.4rem 0.75rem !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  font-size: 0.875rem !important;
+  border-radius: 0.25rem !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  border: 1px solid #dee2e6 !important;
+  color: #0044cc !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease-in-out !important;
+  line-height: 1.25 !important;
+  vertical-align: middle !important;
+}
+
+/* Page item span (disabled text) */
+.page-item span {
+  display: inline-block !important;
+  padding: 0.4rem 0.75rem !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  font-size: 0.875rem !important;
+  border-radius: 0.25rem !important;
+  text-align: center !important;
+  border: 1px solid #dee2e6 !important;
+  background-color: #f8f9fa !important;
+  line-height: 1.25 !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+}
+
+/* Active page */
+.page-item.active .page-link {
+  background-color: #0044cc !important;
+  border-color: #0044cc !important;
+  color: #fff !important;
+}
+
+/* Disabled page */
+.page-item.disabled .page-link,
+.page-item.disabled span {
+  color: #6c757d !important;
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+  background-color: #f8f9fa !important;
+}
+
+/* Hover effect */
+.page-link:hover {
+  background-color: #e9ecef !important;
+  border-color: #0044cc !important;
+}
+
+.page-item.disabled .page-link:hover {
+  background-color: #f8f9fa !important;
+  cursor: not-allowed !important;
+}
+
+/* Wrapper styling */
+.pagination-wrapper {
+  margin-top: 1rem !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.table-pagination {
+  margin-top: 1rem !important;
+}
+
+/* Fix oversized SVG icons in pagination - target all SVGs */
+svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Button component styles using Tailwind's component layer */
+@layer components {
+  .btn {
+    @apply inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium shadow-sm transition-colors duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-blue-600 text-white border-transparent hover:bg-blue-700 focus:ring-blue-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200 focus:ring-gray-300;
+  }
+
+  .btn-outline {
+    @apply btn bg-white text-blue-600 border border-blue-600 hover:bg-blue-50 focus:ring-blue-500;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white border-transparent hover:bg-red-700 focus:ring-red-500;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-gray-700 hover:bg-gray-100 border-transparent focus:ring-gray-200;
+  }
+
+  .btn[disabled],
+  .btn:disabled {
+    @apply opacity-50 cursor-not-allowed pointer-events-none;
+  }
+}

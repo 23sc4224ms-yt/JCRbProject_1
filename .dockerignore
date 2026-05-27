@@ -1,0 +1,17 @@
+.git
+.github
+.vscode
+node_modules
+vendor
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+.env
+.env.*
+!.env.example
+.phpunit.result.cache
+tests
+README.md
+CSS_COMPONENTS_GUIDE.md
+QUICK_REFERENCE.md

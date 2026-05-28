@@ -17,11 +17,12 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # Saka kopyahin ang buong code
 COPY . .
 
-# Patakbuhin ang artisan package:discover (ngayon nandito na ang artisan file)
-RUN php artisan package:discover --ansi
+# Tiyaking may tamang permission at present ang storage at cache bago ang artisan commands
+RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Tiyaking may tamang permission ang storage at cache
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Patakbuhin ang artisan package:discover (ngayon writable na ang cache directory)
+RUN php artisan package:discover --ansi
 
 # Ilipat ang entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/

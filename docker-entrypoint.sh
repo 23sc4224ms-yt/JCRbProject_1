@@ -27,8 +27,8 @@ SESSION_LIFETIME="${SESSION_LIFETIME:-120}"
 EOF
 fi
 
-# 2. I-generate ang APP_KEY kung wala pa
-if ! grep -q "^APP_KEY=.\+" .env; then
+# 2. I-generate ang APP_KEY kung wala pa sa .env at environment
+if [ -z "$APP_KEY" ] && ! grep -q "^APP_KEY=.\+" .env; then
     echo "Generating application key..."
     php artisan key:generate --force
 fi
@@ -44,7 +44,7 @@ php artisan migrate --force
 # 5. Gumawa ng admin user kung may credentials
 if [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
     echo "Seeding admin user..."
-    php artisan db:seed --class=AdminUserSeeder --force
+    php artisan db:seed --class=AdminOnlySeeder --force
 fi
 
 # 6. Ayusin ulit ang permissions

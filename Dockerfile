@@ -17,6 +17,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # Saka kopyahin ang buong code
 COPY . .
 
+# Alisin ang anumang stale compiled views mula sa repo bago mag-cache
+RUN rm -f /var/www/storage/framework/views/*.php /var/www/storage/framework/cache/*.php /var/www/storage/framework/cache/data/* 2>/dev/null || true
+
 # Tiyaking may tamang permission at present ang storage at cache bago ang artisan commands
 RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
     && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache

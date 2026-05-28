@@ -33,22 +33,25 @@ if [ -z "$APP_KEY" ] && ! grep -q "^APP_KEY=.\+" .env; then
     php artisan key:generate --force
 fi
 
-# 3. I-cache ang configuration
+# 3. Linisin muna ang lumang cache at compiled views
+php artisan optimize:clear
+
+# 4. I-cache ang configuration
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# 4. I-migrate ang database
+# 5. I-migrate ang database
 php artisan migrate --force
 
-# 5. Gumawa ng admin user kung may credentials
+# 6. Gumawa ng admin user kung may credentials
 if [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
     echo "Seeding admin user..."
     php artisan db:seed --class=AdminOnlySeeder --force
 fi
 
-# 6. Ayusin ulit ang permissions
+# 7. Ayusin ulit ang permissions
 chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# 7. Simulan ang server (safe na quoted ang port)
+# 8. Simulan ang server (safe na quoted ang port)
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-10000}"

@@ -182,7 +182,7 @@ class StudentController extends Controller
         
     }
 
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
         $student = Student::find($id);
         $degrees = Degree::all();

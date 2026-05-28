@@ -9,8 +9,8 @@
                 <h1 class="page-header-title">Admin Dashboard</h1>
                 <p class="page-header-subtitle">Welcome, {{ session('username') }}.</p>
             </div>
-            <a href="{{ route('teacher.courses') }}" class="btn btn-primary">
-                <i class="fas fa-book-open"></i> Course
+            <a href="{{ url('/degree') }}" class="btn btn-primary">
+                <i class="fas fa-graduation-cap"></i> Degree
             </a>
         </div>
 
@@ -35,11 +35,11 @@
 
             <div class="stat-card-large stat-purple">
                 <div>
-                    <div class="stat-icon-box"><i class="fas fa-book-open"></i></div>
+                    <div class="stat-icon-box"><i class="fas fa-graduation-cap"></i></div>
                 </div>
-                <div class="stat-number">{{ count($courses ?? []) }}</div>
-                <div class="stat-label">Courses</div>
-                <div><a href="{{ route('teacher.courses') }}" class="stat-link">View list</a></div>
+                <div class="stat-number">{{ $totalDegrees ?? 0 }}</div>
+                <div class="stat-label">Degrees</div>
+                <div><a href="{{ url('/degree') }}" class="stat-link">View list</a></div>
             </div>
 
             <div class="stat-card-large stat-amber">
@@ -93,7 +93,7 @@
                     <h4>Quick Actions</h4>
                     <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:0.8rem;">
                         <a href="/student/create" class="btn btn-primary">Add Student</a>
-                        <a href="{{ route('teacher.courses') }}" class="btn btn-primary">Course</a>
+                        <a href="{{ url('/degree') }}" class="btn btn-primary">Degree</a>
                         <a href="{{ route('admin.teachers.create') }}" class="btn btn-secondary">Add Teacher</a>
                         <a href="{{ url('/degree') }}" class="btn btn-outline">Manage Degrees</a>
                     </div>

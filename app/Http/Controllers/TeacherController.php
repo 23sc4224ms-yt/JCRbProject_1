@@ -108,7 +108,7 @@ class TeacherController extends Controller
     /**
      * View a specific student's details
      */
-    public function viewStudent($id)
+    public function viewStudent(int $id)
     {
         $student = Student::with('degree', 'teacher', 'activityLogs')->findOrFail($id);
         return view('teacher.student-detail', compact('student'));

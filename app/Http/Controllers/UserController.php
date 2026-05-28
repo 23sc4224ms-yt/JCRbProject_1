@@ -481,7 +481,7 @@ class UserController extends Controller
         return redirect()->route('teacher.courses.show', $course)->with('success', 'Student removed from course.');
     }
 
-    private function studentCourseRows($students): array
+    private function studentCourseRows(iterable $students): array
     {
         $rows = [];
         $seen = [];

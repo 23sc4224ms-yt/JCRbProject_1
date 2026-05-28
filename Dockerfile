@@ -1,31 +1,33 @@
-FROM serversideup/php:8.3-fpm-nginx
+# Mas lightweight kaysa FPM – sapat na ang CLI server para sa Render
+FROM php:8.4-cli
 
-USER root
+RUN apt-get update && apt-get install -y \
+    git unzip curl libzip-dev zip libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql zip gd
 
-RUN install-php-extensions pgsql pdo_pgsql pdo_mysql
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-COPY --from=node:22 /usr/local/bin/node /usr/local/bin/node
-COPY --from=node:22 /usr/local/lib/node_modules /usr/local/lib/node_modules
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
-    && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+WORKDIR /var/www
 
-WORKDIR /var/www/html
+# I-cache muna ang dependencies bago kopyahin ang buong source
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-COPY --chown=www-data:www-data . .
+# Saka kopyahin ang buong code
+COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
-RUN npm ci
-RUN npm run build
-RUN rm -rf node_modules
+# Patakbuhin ang artisan package:discover (ngayon nandito na ang artisan file)
+RUN php artisan package:discover --ansi
 
-RUN chmod +x /var/www/html/docker/render/start.sh \
-    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Tiyaking may tamang permission ang storage at cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-ENV SSL_MODE=off
-ENV AUTORUN_ENABLED=false
-ENV PHP_OPCACHE_ENABLE=1
+# Ilipat ang entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-USER www-data
+EXPOSE 10000
 
-CMD ["/var/www/html/docker/render/start.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["start"]
